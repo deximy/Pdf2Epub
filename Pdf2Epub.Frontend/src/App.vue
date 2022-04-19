@@ -17,6 +17,7 @@ import {ref, h} from "vue";
 import {GetEmitter} from "./apis/api";
 
 const convert_disabled = ref(true);
+const is_vertical = ref(false);
 
 const emitter = GetEmitter();
 emitter.on(
@@ -34,12 +35,16 @@ const renderCustomHeader = () => {
   return h(
     'div',
     {
-        style: 'display: flex; align-items: center; padding: 8px 12px;'
+        style: 'display: flex; align-items: center; padding: 8px 12px;',
     },
     [
         h(NSpace, [
             h(NText, { depth: 3, }, { default: () => '竖直排版', }),
-            h(NSwitch, {}),
+            h(NSwitch, {
+                'on-update:value': (value: boolean) => {
+                    is_vertical.value = value;
+                }
+            }),
         ]),
     ]
   )
