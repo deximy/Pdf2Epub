@@ -55,6 +55,7 @@ emitter.on(
                 1000
             );
         };
+        UpdateQueryProgessLoop();
     }
 );
 </script>
