@@ -28,7 +28,7 @@ emitter.on(
 );
 
 const StartConvertAllFile = () => {
-
+    emitter.emit("ConvertAllFile");
 };
 
 const renderCustomHeader = () => {
@@ -71,6 +71,7 @@ const advanced_options = [
                             type="primary"
                             class="convert-all"
                             :disabled="convert_disabled"
+                            @click="StartConvertAllFile"
                         >
                             一键转换全部文件
                         </n-button>

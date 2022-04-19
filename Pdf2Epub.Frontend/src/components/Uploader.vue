@@ -12,8 +12,33 @@ import {ref} from "vue";
 import * as path from "path-browserify";
 import {UploadFile} from "../apis/api";
 import {GetEmitter} from "../apis/api";
+import {ConvertPdf} from "../apis/api";
 
 const emitter = GetEmitter();
+emitter.on(
+    "ConvertAllFile",
+    () => {
+        if (file_list.value === undefined)
+        {
+            return;
+        }
+
+        for (let i of file_list.value)
+        {
+            if (i.status == "finished")
+            {
+                ConvertPdf(
+                    i.id,
+                    false
+                ).then(
+                    task_id => {
+                        emitter.emit("UpdateConvertFileList", task_id, i.name);
+                    }
+                );
+            }
+        }
+    }
+);
 
 const file_list = ref<Array<UploadFileInfo>>();     // fxxk, why is there a type error here
 const CustomUploadFile = (
