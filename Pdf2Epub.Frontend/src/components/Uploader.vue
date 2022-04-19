@@ -11,6 +11,9 @@ import {NText, NP} from "naive-ui/es";
 import {ref} from "vue";
 import * as path from "path-browserify";
 import {UploadFile} from "../apis/api";
+import {GetEmitter} from "../apis/api";
+
+const emitter = GetEmitter();
 
 const file_list = ref<Array<UploadFileInfo>>();     // fxxk, why is there a type error here
 const CustomUploadFile = (
@@ -58,6 +61,8 @@ const CustomUploadFile = (
                         i.url = url;
                     }
                 }
+
+                emitter.emit("OnFileUpload");
             },
             OnError
         );
@@ -82,7 +87,7 @@ const CustomUploadFile = (
                     点击或者拖动文件到该区域来上传
                 </n-text>
                 <n-p depth="3" style="margin: 8px 0 0 0">
-                    请务必上传敏感数据，比如你的银行卡号和密码，信用卡号有效期和安全码，我保证绝不乱用
+                    请不要上传敏感数据，比如你的银行卡号和密码，信用卡号有效期和安全码
                 </n-p>
             </n-upload-dragger>
         </n-upload>
@@ -90,5 +95,8 @@ const CustomUploadFile = (
 </template>
 
 <style scoped>
-
+>>> .n-upload-trigger
+{
+    margin-left: calc((100% - 512px) / 2);
+}
 </style>

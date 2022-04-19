@@ -1,11 +1,30 @@
 <script setup lang="ts">
 import Uploader from "./components/Uploader.vue";
+import Converter from "./components/Converter.vue";
 import { NGrid
        , NGridItem
        , NTabs
        , NTabPane
        , NCard
        } from "naive-ui/es";
+import {NButton} from "naive-ui/es";
+
+import {ref} from "vue";
+import {GetEmitter} from "./apis/api";
+
+const convert_disabled = ref(true);
+
+const emitter = GetEmitter();
+emitter.on(
+    "OnFileUpload",
+    () => {
+        convert_disabled.value = false;
+    }
+);
+
+const StartConvertAllFile = () => {
+
+};
 </script>
 
 <template>
@@ -14,9 +33,25 @@ import { NGrid
             <template #prefix>a logo goes here</template>
             <n-tab-pane name="converter" tab="转换器">
                 <n-card>
-                    <h2>文件转换器</h2>
-                    <h3>批量转换PDF文档为ePub电子书</h3>
                     <uploader />
+                    <div class="convert-wrapper">
+                        <n-button
+                            type="primary"
+                            class="convert-all"
+                            :disabled="convert_disabled"
+                        >
+                            一键转换全部文件
+                        </n-button>
+                        <n-button
+                            type="primary"
+                            secondary
+                            class="convert-with-more-setting"
+                            :disabled="convert_disabled"
+                        >
+                            高级设置
+                        </n-button>
+                    </div>
+                    <converter />
                 </n-card>
             </n-tab-pane>
             <n-tab-pane name="features" tab="特性">
@@ -73,5 +108,16 @@ import { NGrid
 .green {
   height: 108px;
   background-color: rgba(0, 128, 0, 0.24);
+}
+.convert-wrapper
+{
+    display: flex;
+    justify-content: space-around;
+
+    margin-top: 50px;
+}
+.converter
+{
+    margin-top: 50px;
 }
 </style>

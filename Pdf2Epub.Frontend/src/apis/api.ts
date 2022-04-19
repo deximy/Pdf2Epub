@@ -1,6 +1,9 @@
 import * as tus from "tus-js-client";
+import Emitter from "tiny-emitter";
 
-const uri = "https://localhost:49153/upload";
+let emitter = new Emitter.TinyEmitter();
+
+const api_url = "https://localhost:49153";
 
 const UploadFile = async (
     file: File,
@@ -12,7 +15,7 @@ const UploadFile = async (
     let tus_client = new tus.Upload(
         file,
         {
-            endpoint: uri,
+            endpoint: `${api_url}/upload`,
             retryDelays: [0, 3000, 5000, 10000, 20000],
             metadata: {
                 name: file.name,
@@ -49,4 +52,8 @@ const UploadFile = async (
         );
 };
 
-export {UploadFile};
+const GetEmitter = () => {
+    return emitter;
+}
+
+export {GetEmitter, UploadFile};
