@@ -26,7 +26,7 @@ namespace Pdf2Epub.Worker.Hubs
                 await connection_.StartAsync();
             };
             connection_.On<string>(
-                "ReceiveMessage",
+                "ReceiveWorkerMessage",
                 (task_id) => {
                     var file_id = Guid.Parse(client_.PostAsync($"{api_url_}/{id_}/{task_id}", null).Result.Content.ReadAsStringAsync().Result);
                     var is_vertical = client_.GetAsync($"{api_url_}/{task_id}?type=is_vertical").Result.Content.ReadAsStringAsync().Result == "true";

@@ -66,5 +66,25 @@ namespace Pdf2Epub.API.Repositories
                 }
             );
         }
+
+        public async Task<bool> UpdateEndtime(Guid id)
+        {
+            return await Update(
+                new ConvertTaskModel() {
+                    id = id,
+                    end_time = DateTime.Now
+                }
+            );
+        }
+
+        public async Task<bool> UpdateResultFileName(Guid id, string result_file_name)
+        {
+            return await Update(
+                new ConvertTaskModel() {
+                    id = id,
+                    result_file_name = result_file_name
+                }
+            );
+        }
     }
 }

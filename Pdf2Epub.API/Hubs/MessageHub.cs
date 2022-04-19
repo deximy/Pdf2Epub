@@ -7,9 +7,14 @@ namespace Pdf2Epub.API.Hubs
         public delegate void MessageHandler(string message);
         MessageHandler? message_handler = null;
 
-        public async Task DistributeMessage(string message)
+        public async Task DistributeWorkerMessage(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
+            await Clients.All.SendAsync("ReceiveWorkerMessage", message);
+        }
+
+        public async Task DistributeFrontendMessage(string message)
+        {
+            await Clients.All.SendAsync("ReceiveFrontendMessage", message);
         }
 
         public void HandleMessage(string message)

@@ -19,5 +19,7 @@ namespace Pdf2Epub.API.Models
 
         public DateTime? end_time { get; set; }
 
+        public string? result_file_name { get; set; }
+
     }
 }

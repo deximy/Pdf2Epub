@@ -28,7 +28,7 @@ namespace Pdf2Epub.API.Services
 
         public async Task SendTaskToAllWorker(Guid task_id)
         {
-            await hub_context_.Clients.All.SendAsync("ReceiveMessage", task_id);
+            await hub_context_.Clients.All.SendAsync("ReceiveWorkerMessage", task_id);
         }
 
         public async Task<bool> SetWorkerWaiting(Guid id, bool waiting)
