@@ -6,10 +6,14 @@ import { NGrid
        , NTabs
        , NTabPane
        , NCard
+       , NDropdown
+       , NSwitch
+       , NText
+       , NSpace
        } from "naive-ui/es";
 import {NButton} from "naive-ui/es";
 
-import {ref} from "vue";
+import {ref, h} from "vue";
 import {GetEmitter} from "./apis/api";
 
 const convert_disabled = ref(true);
@@ -25,6 +29,29 @@ emitter.on(
 const StartConvertAllFile = () => {
 
 };
+
+const renderCustomHeader = () => {
+  return h(
+    'div',
+    {
+        style: 'display: flex; align-items: center; padding: 8px 12px;'
+    },
+    [
+        h(NSpace, [
+            h(NText, { depth: 3, }, { default: () => '竖直排版', }),
+            h(NSwitch, {}),
+        ]),
+    ]
+  )
+}
+
+const advanced_options = [
+    {
+        key: "header",
+        type: "render",
+        render: renderCustomHeader,
+    },
+]
 </script>
 
 <template>
@@ -42,14 +69,16 @@ const StartConvertAllFile = () => {
                         >
                             一键转换全部文件
                         </n-button>
-                        <n-button
-                            type="primary"
-                            secondary
-                            class="convert-with-more-setting"
-                            :disabled="convert_disabled"
-                        >
-                            高级设置
-                        </n-button>
+                        <n-dropdown trigger="click" :options="advanced_options" @select="handleAdvancedSelect">
+                            <n-button
+                                type="primary"
+                                secondary
+                                class="convert-with-more-setting"
+                                :disabled="convert_disabled"
+                            >
+                                高级设置
+                            </n-button>
+                        </n-dropdown>
                     </div>
                     <converter />
                 </n-card>
