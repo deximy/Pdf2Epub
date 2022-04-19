@@ -11,6 +11,8 @@ namespace Pdf2Epub.API.Models
 
         public string? file_name { get; set; }
 
+        public bool is_vertical { get; set; }
+
         public DateTime start_time { get; set; }
 
         public Guid? worker_id { get; set; }

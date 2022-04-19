@@ -56,5 +56,15 @@ namespace Pdf2Epub.API.Repositories
                 }
             );
         }
+
+        public async Task<bool> UpdateVertical(Guid id, bool is_vertical)
+        {
+            return await Update(
+                new ConvertTaskModel() {
+                    id = id,
+                    is_vertical = is_vertical
+                }
+            );
+        }
     }
 }

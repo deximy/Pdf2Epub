@@ -56,4 +56,39 @@ const GetEmitter = () => {
     return emitter;
 }
 
+const ConvertPdf = async (file_name: string, is_vertical: boolean) => {
+    let form_data = new FormData();
+    form_data.set("file_id", file_name);
+    form_data.set("is_vertical", is_vertical ? "true" : "false");
+    let response = await fetch(
+        `${api_url}/convert`,
+        {
+            method: "POST",
+            body: form_data
+        }
+    );
+    return await response.text();
+};
+
+const QueryConvertProgress = async (task_id: string) => {
+    let response = await fetch(
+        `${api_url}/convert/${task_id}?type=progress`,
+        {
+            method: "Get",
+        }
+    );
+    return await response.text();
+};
+
+const GetConvertResult = async (task_id: string) => {
+    let response = await fetch(
+        `${api_url}/convert/${task_id}?type=result`,
+        {
+            method: "Get",
+        }
+    );
+    return await response.text();
+};
+
 export {GetEmitter, UploadFile};
+export {ConvertPdf, QueryConvertProgress, GetConvertResult};

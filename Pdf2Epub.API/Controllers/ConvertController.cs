@@ -19,19 +19,20 @@ namespace Pdf2Epub.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromForm] string file_id)
+        public async Task<IActionResult> CreateTask([FromForm] string file_id, [FromForm] bool is_vertical)
         {
             var id = await convert_task_repository_.NewTask();
 
-            convert_task_repository_.UpdateFileName(id, file_id);
+            await convert_task_repository_.UpdateFileName(id, file_id);
+            await convert_task_repository_.UpdateVertical(id, is_vertical);
 
             if (!System.IO.File.Exists($"/root/{file_id}"))
             {
-                convert_task_repository_.UpdateTaskState(id, ConvertStatus.UPLOAD_FAILED);
+                await convert_task_repository_.UpdateTaskState(id, ConvertStatus.UPLOAD_FAILED);
                 return NotFound();
             }
 
-            worker_service_.SendTaskToAllWorker(id);
+            await worker_service_.SendTaskToAllWorker(id);
 
             return Ok(id);
         }
